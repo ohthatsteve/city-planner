@@ -21,7 +21,7 @@ function loadData() {
     $greeting.text("Here's some information about " + address);
 
     //Create streetview url
-    var streetViewUrl = 'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address;
+    var streetViewUrl = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address;
 
     //Append streetview url to the body of the page
     $body.append('<img class = "bgimg" src="' + streetViewUrl + '">');
