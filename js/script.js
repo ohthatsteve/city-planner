@@ -39,22 +39,32 @@ function loadData() {
             $nytHeaderElem.text('No New York Times data is currently available');
         });
 
+    var wikiRequestTimeout = setTimeout(function(){
+        $wikiElem.text('Failed to retrieve wikipedia resources.');
+    },8000);
+
     //Wiki ajax request
     var wikiAPI = 'https://en.wikipedia.org/w/api.php';
     $.ajax({
         url: wikiAPI,
-        data :{action: 'opensearch',
-        search: city,
-        dataType: 'jsonp'
+        data :{
+            action: 'opensearch',
+            search: city,
+            format: 'json'
         },
-        callback: this.success,
+        dataType: 'jsonp',
         success: function(response) {
-            var list = response[0];
-            var url = 'http://en.wikipedia.org/wiki/' + list;
-            $wikiElem.append('<li><a href"' + url + '">' + list + '</a></li>');
+            var articleList = response[1];
+            var current;
+            var wikiUrl = 'https://en.wikipedia.org/wiki/';
+            for(var i = 0; i< articleList.length; i++){
+                current = articleList[i];
+                $wikiElem.append('<li><a href="' + wikiUrl + current + '">' + current + '</a></li>');
+                }
+            clearTimeout(wikiRequestTimeout);
+
             }
-        
-    });
+        });
 
     return false;
 };
